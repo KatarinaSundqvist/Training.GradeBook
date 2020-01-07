@@ -24,14 +24,6 @@ namespace GradeBook.Tests {
 
         }
 
-        [Fact]
-        public void AddGradeOnlyAddsValidValues() {
-            var book = new Book("Test");
-            book.AddGrade(105);
-            book.AddGrade(-5);
-            var result = book.GetGrades();
 
-            Assert.Empty(result);
-        }
     }
 }

@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 
 namespace GradeBook {
-    public class Book {
+
+    public delegate void GradeAddedDelegate(object sender, EventArgs args);
+
+    public class Book : NamedObject {
 
         public Book(string name) {
             grades = new List<double>();
             Name = name;
         }
 
-        public void AddLetterGrade(char letter) {
+        public void AddGrade(char letter) {
             switch (letter) {
                 case 'A':
                     AddGrade(100);
@@ -35,11 +38,14 @@ namespace GradeBook {
         public void AddGrade(double grade) {
             if (grade <= 100 && grade >= 0) {
                 grades.Add(grade);
+                GradeAdded?.Invoke(this, new EventArgs());
             }
             else {
-                Console.WriteLine("Invalid value");
+                throw new ArgumentException($"Invalid {nameof(grade)}");
             }
         }
+
+        public event GradeAddedDelegate GradeAdded;
 
         public List<double> GetGrades() {
             return grades;
@@ -83,6 +89,6 @@ namespace GradeBook {
 
         private List<double> grades;
 
-        public string Name;
+        public const string CATEGORY = "Science";
     }
 }
